@@ -1,0 +1,30 @@
+{
+  "name": "Weather",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "eslint src"
+  },
+  "license": "MPL-2",
+  "devDependencies": {
+    "babel-core": "^6.0.20",
+    "babel-eslint": "^4.1.3",
+    "babel-loader": "^6.0.1",
+    "babel-preset-es2015": "^6.0.15",
+    "babel-preset-react": "^6.0.15",
+    "babel-preset-stage-0": "^6.0.15",
+    "css-loader": "^0.23.1",
+    "eslint-plugin-react": "^3.6.2",
+    "react-hot-loader": "^1.3.0",
+    "style-loader": "^0.13.0",
+    "stylus-loader": "^1.5.1",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.1"
+  },
+  "dependencies": {
+    "jquery": "^2.2.0",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  }
+}
