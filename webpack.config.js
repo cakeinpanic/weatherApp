@@ -6,7 +6,7 @@ module.exports = {
 	entry: [
 		'webpack-dev-server/client?http://localhost:3030',
 		'webpack/hot/only-dev-server',
-		'./src/index'
+		'./src/index.jsx'
 	],
 	output: {
 		path: path.join(__dirname, 'dist'),
@@ -21,14 +21,20 @@ module.exports = {
 		})
 	],
 	module: {
-		loaders: [{
-			test: /\.js$/,
-			loaders: ['react-hot', 'babel'],
-			include: path.join(__dirname, 'src')
-		},
-		{
-			test: /\.styl$/,
-			loader: 'style!css!stylus?paths[]=lib&include css'
-		}]
+		loaders: [
+			{
+				test: /\.js[x]?$/,
+				loaders: ['react-hot', 'babel'],
+				include: path.join(__dirname, 'src')
+			},
+			{
+				test: /\.styl$/,
+				loader: 'style!css!stylus?paths[]=lib&include css'
+			},
+			{
+				test: /\.json/,
+				loader: 'json'
+			}
+		]
 	}
 };
