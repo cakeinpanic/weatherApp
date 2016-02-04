@@ -17,7 +17,7 @@ export default React.createClass({
 			max: 0
 		}
 	},
-	componentDidMount() {
+	request() {
 		$.get('http://api.openweathermap.org/data/2.5/weather?id=' + this.props.id + '&appid=' + token,
 			function(result) {
 				this.setState({
@@ -28,7 +28,13 @@ export default React.createClass({
 				});
 			}.bind(this));
 	},
-	onRemove(){
+	componentDidMount() {
+		this._interval = setInterval(this.request, 1000);
+	},
+	componentWillUnmount() {
+		clearInterval(this._interval);
+	},
+	onRemove() {
 		this.props.onRemove(this.props.id)
 	},
 	renderTemp(label, temp) {
