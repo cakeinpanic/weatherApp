@@ -6,7 +6,8 @@ let token = '44db6a862fba0b067b1930da0d769e98';
 export default React.createClass({
 	getDefaultProps() {
 		return {
-			id: 2172797
+			id: 2172797,
+			onRemove: ()=> {}
 		}
 	},
 	getInitialState() {
@@ -27,6 +28,9 @@ export default React.createClass({
 				});
 			}.bind(this));
 	},
+	onRemove(){
+		this.props.onRemove(this.props.id)
+	},
 	renderTemp(label, temp) {
 		return (
 			<div className="temp">
@@ -42,6 +46,7 @@ export default React.createClass({
 	render() {
 		return (
 			<div className="city">
+				<div className="remove" onClick={this.onRemove}>remove</div>
 				<h3>{this.state.name}</h3>
 				{this.renderTemp('Current', this.state.temp)}
 				{this.renderTemp('Max', this.state.max)}

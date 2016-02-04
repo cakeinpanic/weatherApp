@@ -10,7 +10,16 @@ export default React.createClass({
 			cityList: [707860]
 		}
 	},
+	onCityRemove(cityId){
 
+		let newList =  this.state.cityList;
+		let cityPosition = newList.indexOf(cityId);
+		newList.splice(cityPosition,1);
+
+		this.setState(
+			{cityList: newList}
+		)
+	},
 	citySelected(cityId){
 		this.setState(
 			{cityList: this.state.cityList.concat([cityId])}
@@ -21,7 +30,7 @@ export default React.createClass({
 			<div className="app">
 				{
 					this.state.cityList.map((cityId, i) => {
-						return <City key={i} id={cityId}/>
+						return <City onRemove={this.onCityRemove} key={i} id={cityId}/>
 					})
 				}
 				<CitySelector onCitySelected={this.citySelected}/>
