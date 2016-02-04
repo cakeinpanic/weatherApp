@@ -1,13 +1,12 @@
 import React from 'react';
-import $ from 'jquery';
-
-let token = '44db6a862fba0b067b1930da0d769e98';
+import buffer from './buffer.jsx';
 
 export default React.createClass({
 	getDefaultProps() {
 		return {
 			id: 2172797,
-			onRemove: ()=> {}
+			onRemove: ()=> {
+			}
 		}
 	},
 	getInitialState() {
@@ -17,16 +16,17 @@ export default React.createClass({
 			max: 0
 		}
 	},
+
 	request() {
-		$.get('http://api.openweathermap.org/data/2.5/weather?id=' + this.props.id + '&appid=' + token,
-			function(result) {
+		buffer.getById(this.props.id,
+			result => {
 				this.setState({
 					temp: result.main.temp,
 					min: result.main.temp_min,
 					max: result.main.temp_max,
 					name: result.name
 				});
-			}.bind(this));
+			});
 	},
 	componentDidMount() {
 		this._interval = setInterval(this.request, 1000);
@@ -44,7 +44,7 @@ export default React.createClass({
 						{label}
 					</span>
 					<span className="temp--value">
-						{temp}
+						{temp}°C
 					</span>
 			</div>
 		);
