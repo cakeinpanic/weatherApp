@@ -1,0 +1,24 @@
+.citySelector {
+
+	.dropdown {
+		border-radius: 0 0 5px 5px;
+		overflow: hidden;
+		position: absolute;
+		z-index: 1000;
+		max-height: 400px;
+		overflow-y: scroll;
+		&--list {
+			margin: 0;
+			background: white;
+		}
+		&--option {
+			cursor: pointer;
+			padding: 3px 10px;
+			background-color: #ECF0F1;
+			&:hover {
+				background-color: #3498DB;
+				color: white;
+			}
+		}
+	}
+}

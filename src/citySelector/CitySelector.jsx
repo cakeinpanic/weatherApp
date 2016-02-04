@@ -3,11 +3,13 @@ import Autocomplete from 'react-autocomplete';
 
 import cities from './city.list.js';
 import {matchCity, sortCities} from './utils.jsx';
+import './citySelector.styl';
 
 export default React.createClass({
 	getDefaultProps() {
 		return {
-			onCitySelected: ()=>{}
+			onCitySelected: ()=> {
+			}
 		}
 	},
 	getInitialState() {
@@ -17,7 +19,9 @@ export default React.createClass({
 	},
 	renderSuggestion(suggestion){
 		return (
-			<div>{suggestion.name}</div>
+			<li className="dropdown--option">
+				{suggestion.name}
+			</li>
 		);
 	},
 
@@ -27,10 +31,25 @@ export default React.createClass({
 			value: ''
 		});
 	},
+	renderMenu(items, value, style){
+		return (
+			<div style={style} className="dropdown">
+				<ul className="dropdown--list">
+					{items}
+				</ul>
+			</div>
+
+		);
+	},
 	render() {
+		let inputProps = {
+			className: 'form-control'
+		};
 		return (
 			<div className="citySelector">
 				<Autocomplete
+					renderMenu={this.renderMenu}
+					inputProps={inputProps}
 					onSelect={this.citySelected}
 					onChange={this.onChange}
 					initialValue=""

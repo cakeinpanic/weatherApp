@@ -1,0 +1,11 @@
+$colors = ({name: 'emerald' ,light: #1ABC9C, dark: #16A085}  {name: 'green' ,light: #2ECC71, dark: #27AE60}  {name: 'blue' ,light: #3498DB, dark: #2980B9}  {name: 'purple' ,light: #9B59B6, dark: #8E44AD}  {name: 'dark' ,light: #34495E, dark: #2C3E50}  {name: 'yellow' ,light: #F1C40F, dark: #F39C12}   {name: 'orange' ,light: #E67E22, dark: #D35400}  {name: 'red' ,light: #E74C3C, dark: #C0392B} {name: 'white' ,light: #ECF0F1, dark: #BDC3C7}  {name: 'grey' ,light: #95A5A6, dark: #7F8C8D}  );
+color-mixin() {
+	for color in $colors {
+		&-{color.name} {
+			background: color.light;
+			&:after {
+				background: color.dark;
+			}
+		}
+	}
+}

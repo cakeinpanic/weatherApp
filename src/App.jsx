@@ -1,14 +1,19 @@
 import React from 'react';
+
+import './styl/main.styl';
+import './styl/app.styl';
+import '../node_modules/flat-ui/css/flat-ui.css'
+
 import City from './City.jsx';
 import CitySelector from './citySelector/CitySelector.jsx';
 import buffer from './buffer.jsx';
 
-import './styl/main.styl';
 
 export default React.createClass({
 	getInitialState() {
 		return {
-			cityList: []
+			cityList: [],
+			localCityId: 0
 		}
 	},
 	onCityRemove(cityId) {
@@ -39,7 +44,8 @@ export default React.createClass({
 				var lon = position.coords.longitude;
 
 				buffer.getByCoords(lat, lon, (result) => {
-					this.addCity(result.id)
+					this.addCity(result.id);
+					this.setState({localCityId: result.id});
 				})
 			})
 		}
@@ -47,9 +53,9 @@ export default React.createClass({
 	componentDidMount() {
 
 		let localCityList = localStorage
-				.getItem('WeatherApp')
-				.split(',')
-				.map(id=> +id);
+			.getItem('WeatherApp')
+			.split(',')
+			.map(id=> +id);
 
 		if (localCityList[0] != 0) {
 			this.setState(
@@ -61,12 +67,19 @@ export default React.createClass({
 	render() {
 		return (
 			<div className="app">
-				{
-					this.state.cityList.map((cityId, i) => {
-						return <City onRemove={this.onCityRemove} key={i} id={cityId}/>
-					})
-				}
-				<CitySelector onCitySelected={this.addCity}/>
+				<div className="panel">
+					<div className="panel--title">Weather app</div>
+					<div className="panel--selector">
+						<CitySelector onCitySelected={this.addCity}/>
+					</div>
+				</div>
+				<div className="cities">
+					{
+						this.state.cityList.map((cityId, i) => {
+							return <City onRemove={this.onCityRemove} key={i} id={cityId} isLocal={cityId === this.state.localCityId}/>
+						})
+					}
+				</div>
 			</div>
 		);
 	}

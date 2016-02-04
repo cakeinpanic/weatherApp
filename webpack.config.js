@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
 	devtool: 'eval',
@@ -20,6 +21,9 @@ module.exports = {
 			jQuery: "jquery"
 		})
 	],
+	postcss : function(){
+		return [autoprefixer];
+	},
 	module: {
 		loaders: [
 			{
@@ -28,8 +32,16 @@ module.exports = {
 				include: path.join(__dirname, 'src')
 			},
 			{
+				test: /\.css$/,
+				loader: 'style!css'
+			},
+			{
+				test: /\.(jpg|png|woff|woff2|eot|ttf|svg)$/,
+				loader: 'url-loader?limit=100000'
+			},
+			{
 				test: /\.styl$/,
-				loader: 'style!css!stylus?paths[]=lib&include css'
+				loader: 'style!css!postcss!stylus?paths[]=node_modules&include css&resolve url'
 			},
 			{
 				test: /\.json/,

@@ -1,0 +1,72 @@
+@require './colors.styl'
+.city {
+	border-radius: 5px;
+	overflow :hidden;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	height: 400px;
+	padding: 50px 30px;
+	box-sizing: border-box;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	color: white;
+	color-mixin();
+	&:after {
+		content: '';
+		width: 100%;
+		display: block;
+		height: 8px;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+	}
+	.closeButton {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		cursor: pointer;
+	}
+	.localIcon {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+	}
+	.loader {
+		position: relative;
+		margin: 0 auto;
+		text-align: center;
+		font-size: 3em;
+		top: 100px;
+	}
+
+	.temp {
+		&-current {
+			font-size: 70px;
+			margin-bottom: 20px;
+		}
+		&--label {
+			margin-right: 20px;
+		}
+	}
+	&--name {
+		text-align: center;
+		font-size: 29px;
+
+		line-height: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+	}
+	&--info {
+		text-align: center;
+		height: 100%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		flex-direction: column;
+	}
+
+}
