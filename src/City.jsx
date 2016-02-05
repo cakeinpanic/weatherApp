@@ -4,8 +4,6 @@ import './styl/city.styl';
 
 const colorList = ['emerald', 'green', 'blue', 'purple', 'dark', 'yellow', 'orange', 'red', 'white', 'grey'];
 
-//todo: fin Nan in temp
-//todo: remove added city from list
 export default React.createClass({
 	getDefaultProps() {
 		return {
@@ -53,24 +51,21 @@ export default React.createClass({
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
 
-		let color = colorList[getRandomInt(0, colorList.length - 1)];
-		return color;
+		return colorList[getRandomInt(0, colorList.length - 1)]
 	},
 	renderTemp(label, temp, modifier) {
 		let classname = !!modifier ? `temp temp-${modifier.toLowerCase()}` : 'temp';
-		return (
-			<div className={classname}>
-				{
-					!!label &&
-					<span className="temp--label">
-						{label}
-					</span>
-				}
+		return !!temp && (
+
+				<div className={classname}>
+					{
+						!!label && <span className="temp--label">{label}</span>
+					}
 				<span className="temp--value">
 					{Math.round(temp)}°C
 				</span>
-			</div>
-		);
+				</div>
+			);
 	},
 	renderLocalIcon(){
 		return (

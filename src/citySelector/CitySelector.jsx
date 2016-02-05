@@ -8,6 +8,7 @@ import './citySelector.styl';
 export default React.createClass({
 	getDefaultProps() {
 		return {
+			shownList: [],
 			onCitySelected: ()=> {
 			}
 		}
@@ -41,6 +42,12 @@ export default React.createClass({
 
 		);
 	},
+	matchCity(city, value) {
+		return (
+			this.props.shownList.indexOf(city._id) === -1 &&
+			city.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
+		)
+	},
 	render() {
 		let inputProps = {
 			className: 'form-control'
@@ -54,7 +61,7 @@ export default React.createClass({
 					onChange={this.onChange}
 					initialValue=""
 					items={cities}
-					shouldItemRender={matchCity}
+					shouldItemRender={this.matchCity}
 					sortItems={sortCities}
 					getItemValue={(item) => item.name}
 					renderItem={this.renderSuggestion}

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import './styl/main.styl';
 import './styl/app.styl';
 import '../node_modules/flat-ui/css/flat-ui.css'
 
@@ -20,7 +19,6 @@ export default React.createClass({
 		let newList = this.state.cityList;
 		let cityPosition = newList.indexOf(cityId);
 		newList.splice(cityPosition, 1);
-
 		this.updateList(newList);
 	},
 	updateList(newList) {
@@ -36,7 +34,10 @@ export default React.createClass({
 			this.updateList(newList);
 		}
 	},
-	getLocation(){
+	addLocalCity(){
+		this.addCity(this.state.localCityId);
+	},
+	getLocation(addLocalCity){
 		if ("geolocation" in navigator) {
 			navigator.geolocation.getCurrentPosition((position)=> {
 
@@ -44,40 +45,51 @@ export default React.createClass({
 				var lon = position.coords.longitude;
 
 				buffer.getByCoords(lat, lon, (result) => {
-					this.addCity(result.id);
 					this.setState({localCityId: result.id});
+					if (addLocalCity) {
+						this.addCity(result.id);
+					}
 				})
 			})
 		}
 	},
 	componentDidMount() {
-
 		let localCityList = localStorage
 			.getItem('WeatherApp')
 			.split(',')
 			.map(id=> +id);
 
-		if (localCityList[0] != 0) {
-			this.setState(
-				{cityList: localCityList}
-			);
+		let isLocallyStored = localCityList[0] != 0;
+		if (isLocallyStored) {
+			this.updateList(localCityList);
 		}
-		this.getLocation()
+
+		this.getLocation(!isLocallyStored);
+
+
 	},
 	render() {
+		let isLocalShown = this.state.cityList.indexOf(this.state.localCityId) !== -1;
 		return (
 			<div className="app">
 				<div className="panel">
 					<div className="panel--title">Weather app</div>
+					{!isLocalShown && <div className="panel--addLocal">
+						<a className="btn btn-block btn-lg btn-default" onClick={this.addLocalCity}>
+							<span className="fui-location"/> Add local city
+						</a></div>
+					}
 					<div className="panel--selector">
-						<CitySelector onCitySelected={this.addCity}/>
+						<CitySelector onCitySelected={this.addCity} shownList={this.state.cityList}/>
 					</div>
 				</div>
 				<div className="cities">
 					{
-						this.state.cityList.map((cityId, i) => {
-							return <City onRemove={this.onCityRemove} key={i} id={cityId} isLocal={cityId === this.state.localCityId}/>
-						})
+						this.state.cityList
+							.map((cityId, i) => {
+								return <City onRemove={this.onCityRemove} key={i} id={cityId}
+									isLocal={cityId === this.state.localCityId}/>
+							})
 					}
 				</div>
 			</div>
