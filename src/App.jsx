@@ -54,8 +54,7 @@ export default React.createClass({
 		}
 	},
 	componentDidMount() {
-		let localCityList = localStorage
-			.getItem('WeatherApp')
+		let localCityList = (localStorage.getItem('WeatherApp') || '')
 			.split(',')
 			.map(id=> +id);
 
