@@ -3,16 +3,23 @@
 	border-radius: 5px;
 	overflow: hidden;
 	position: relative;
-	display: flex;
-	flex-direction: column;
 	width: 300px;
 	height: 400px;
-	padding: 50px 30px;
-	box-sizing: border-box;
 	margin-right: 20px;
 	margin-bottom: 20px;
+	padding: 50px 30px;
+	box-sizing: border-box;
 	color: white;
+	disaply: flex;
+	justify-content: flex-end;
 	color-mixin();
+	&--data {
+		height: 290px;
+		box-sizing: border-box;
+		padding-bottom :10px;
+		display: flex;
+		flex-direction: column;
+	}
 	&:after {
 		content: '';
 		width: 100%;
@@ -46,9 +53,13 @@
 			font-size: 70px;
 			margin-bottom: 20px;
 		}
+		&-forecast {
+			font-size: 30px;
+		}
 		&--label {
 			margin-right: 20px;
 		}
+
 	}
 	&--name {
 		text-align: center;
@@ -68,7 +79,10 @@
 		align-items: center;
 		flex-direction: column;
 	}
-
+	&--forecastBtn {
+		margin-top: 10px;
+		text-align: center;
+	}
 }
 
 @media screen and (max-width: 450px) {

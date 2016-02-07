@@ -1,4 +1,4 @@
-let token = '44db6a862fba0b067b1930da0d769e98';
+let token = '929344a935f2f5bead18fa4bb33696e0';
 let url = `http://api.openweathermap.org/data/2.5/`;
 let postfix = `appid=${token}&units=metric`;
 
@@ -9,13 +9,18 @@ export default {
 			callback);
 
 	},
+	getForecast: function (id, callback) {
+		$.get(`${url}forecast?id=${id}&${postfix}`,
+			callback);
+
+	},
 	getByCoords: function (lat, lon, callback) {
 		$.get(`${url}weather?lat=${lat}&lon=${lon}&${postfix}`,
 			callback);
 
 	},
 	getFewCitiesData: function (cityIdArray, callback) {
-		$.get(`${url}/group?id=${cityIdArray.toString()}&${postfix}`,
+		$.get(`${url}group?id=${cityIdArray.toString()}&${postfix}`,
 			callback);
 	}
 }

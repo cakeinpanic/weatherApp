@@ -35,7 +35,7 @@ export default React.createClass({
 			isLocalShown: localCityPosition !== -1
 		});
 
-		this.getWeather();
+		this.getWeather(cityList);
 		localStorage.setItem('WeatherApp', cityList);
 	},
 	addCity(cityId) {
@@ -67,7 +67,7 @@ export default React.createClass({
 			.split(',')
 			.map(id=> +id);
 
-		let isLocallyStored = localCityList[0] != 0;
+		let isLocallyStored = (localCityList[0] != 0);
 		if (isLocallyStored) {
 			this.updateList(localCityList);
 		}
@@ -75,14 +75,15 @@ export default React.createClass({
 	componentDidMount() {
 		this.getLocallyStoredData();
 		this.getUserLocalCity();
-		this.getWeather();
-		this._interval = setInterval(this.getWeather, 2000);
+
+		this._interval = setInterval(this.getWeather, 10000);
 	},
 	componentWillUnmount() {
 		clearInterval(this._interval);
 	},
-	getWeather() {
-		buffer.getFewCitiesData(this.state.cityList, result => {
+	getWeather(cityList) {
+		cityList = cityList || this.state.cityList;
+		buffer.getFewCitiesData(cityList, result => {
 			let cityList = {};
 			result.list.forEach(data => {
 					cityList[data.id] = {
