@@ -61,6 +61,7 @@ export default React.createClass({
 				{isDataLoaded ?
 					<div className="city--info">
 						{this.renderTemp(this.props.temp, 'current')}
+						<div className="city--description">{this.props.description}</div>
 					</div>
 					:
 					<div className="city--loader">Loading...</div>

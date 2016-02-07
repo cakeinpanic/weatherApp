@@ -24,17 +24,24 @@ export default React.createClass({
 			this.updateList(newList);
 		}
 	},
-	updateList(newList) {
-		this.setState(
-			{cityList: newList}
-		);
+	updateList(cityList) {
+		let localCityPosition = cityList.indexOf(this.state.localCityId);
+		if (localCityPosition !== -1) {
+			cityList.splice(localCityPosition, 1);
+			cityList.unshift(this.state.localCityId);
+		}
+		this.setState({
+			cityList,
+			isLocalShown: localCityPosition !== -1
+		});
+
 		this.getWeather();
-		localStorage.setItem('WeatherApp', newList);
+		localStorage.setItem('WeatherApp', cityList);
 	},
 	addCity(cityId) {
 		let cityPosition = this.state.cityList.indexOf(cityId);
 		if (cityPosition === -1) {
-			let newList = this.state.cityList.concat([cityId]);
+			let newList = ([cityId]).concat(this.state.cityList);
 			this.updateList(newList);
 		}
 	},
@@ -50,6 +57,7 @@ export default React.createClass({
 
 				buffer.getByCoords(lat, lon, result => {
 					this.setState({localCityId: result.id});
+					this.addLocalCity();
 				})
 			})
 		}
@@ -79,7 +87,8 @@ export default React.createClass({
 			result.list.forEach(data => {
 					cityList[data.id] = {
 						name: data.name,
-						temp: data.main.temp
+						temp: data.main.temp,
+						description: data.weather[0].description
 					};
 				}
 			);
@@ -88,15 +97,13 @@ export default React.createClass({
 	},
 
 	render() {
-		let isLocalShown = this.state.cityList.indexOf(this.state.localCityId) !== -1;
-		//console.log(this.state.cityList);
 		return (
 			<div className="app">
 				<div className="panel">
 					<div className="panel--title">Weather app</div>
-					{!isLocalShown && <div className="panel--addLocal">
+					{!this.state.isLocalShown && <div className="panel--addLocal">
 						<a className="btn btn-block btn-lg btn-default" onClick={this.addLocalCity}>
-							<span className="fui-location"/> Add local city
+							<span className="fui-location"/> <span className="btn--text">Add local city</span>
 						</a></div>
 					}
 					<div className="panel--selector">

@@ -1,7 +1,7 @@
 @require './colors.styl'
 .city {
 	border-radius: 5px;
-	overflow :hidden;
+	overflow: hidden;
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -69,4 +69,11 @@
 		flex-direction: column;
 	}
 
+}
+
+@media screen and (max-width: 450px) {
+	.city {
+		width: 100%;
+		margin-right: 0;
+	}
 }

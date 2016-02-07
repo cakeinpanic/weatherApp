@@ -2,7 +2,7 @@ import React from 'react';
 import Autocomplete from 'react-autocomplete';
 
 import cities from './city.list.js';
-import {matchCity, sortCities} from './utils.jsx';
+import {sortCities} from './utils.jsx';
 import './citySelector.styl';
 
 export default React.createClass({
@@ -17,6 +17,9 @@ export default React.createClass({
 		return {
 			value: ''
 		}
+	},
+	onChange(e, value){
+		this.setState({value});
 	},
 	renderSuggestion(suggestion){
 		return (
@@ -55,11 +58,11 @@ export default React.createClass({
 		return (
 			<div className="citySelector">
 				<Autocomplete
+					value={this.state.value}
+					onChange={this.onChange}
 					renderMenu={this.renderMenu}
 					inputProps={inputProps}
 					onSelect={this.citySelected}
-					onChange={this.onChange}
-					initialValue=""
 					items={cities}
 					shouldItemRender={this.matchCity}
 					sortItems={sortCities}
