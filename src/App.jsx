@@ -12,19 +12,23 @@ export default React.createClass({
 	getInitialState() {
 		return {
 			cityList: [],
+			cityData: {},
 			localCityId: 0
 		}
 	},
 	onCityRemove(cityId) {
 		let newList = this.state.cityList;
 		let cityPosition = newList.indexOf(cityId);
-		newList.splice(cityPosition, 1);
-		this.updateList(newList);
+		if (cityPosition !== -1) {
+			newList.splice(cityPosition, 1);
+			this.updateList(newList);
+		}
 	},
 	updateList(newList) {
 		this.setState(
 			{cityList: newList}
 		);
+		this.getWeather();
 		localStorage.setItem('WeatherApp', newList);
 	},
 	addCity(cityId) {
@@ -34,26 +38,23 @@ export default React.createClass({
 			this.updateList(newList);
 		}
 	},
-	addLocalCity(){
+	addLocalCity() {
 		this.addCity(this.state.localCityId);
 	},
-	getLocation(addLocalCity){
-		if ("geolocation" in navigator) {
+	getUserLocalCity() {
+		if ('geolocation' in navigator) {
 			navigator.geolocation.getCurrentPosition((position)=> {
 
 				var lat = position.coords.latitude;
 				var lon = position.coords.longitude;
 
-				buffer.getByCoords(lat, lon, (result) => {
+				buffer.getByCoords(lat, lon, result => {
 					this.setState({localCityId: result.id});
-					if (addLocalCity) {
-						this.addCity(result.id);
-					}
 				})
 			})
 		}
 	},
-	componentDidMount() {
+	getLocallyStoredData(){
 		let localCityList = (localStorage.getItem('WeatherApp') || '')
 			.split(',')
 			.map(id=> +id);
@@ -62,13 +63,33 @@ export default React.createClass({
 		if (isLocallyStored) {
 			this.updateList(localCityList);
 		}
-
-		this.getLocation(!isLocallyStored);
-
-
 	},
+	componentDidMount() {
+		this.getLocallyStoredData();
+		this.getUserLocalCity();
+		this.getWeather();
+		this._interval = setInterval(this.getWeather, 2000);
+	},
+	componentWillUnmount() {
+		clearInterval(this._interval);
+	},
+	getWeather() {
+		buffer.getFewCitiesData(this.state.cityList, result => {
+			let cityList = {};
+			result.list.forEach(data => {
+					cityList[data.id] = {
+						name: data.name,
+						temp: data.main.temp
+					};
+				}
+			);
+			this.setState({cityData: cityList});
+		});
+	},
+
 	render() {
 		let isLocalShown = this.state.cityList.indexOf(this.state.localCityId) !== -1;
+		//console.log(this.state.cityList);
 		return (
 			<div className="app">
 				<div className="panel">
@@ -86,7 +107,11 @@ export default React.createClass({
 					{
 						this.state.cityList
 							.map((cityId, i) => {
-								return <City onRemove={this.onCityRemove} key={i} id={cityId}
+								return <City
+									key={i}
+									onRemove={this.onCityRemove}
+									id={cityId}
+									{...this.state.cityData[cityId]}
 									isLocal={cityId === this.state.localCityId}/>
 							})
 					}

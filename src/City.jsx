@@ -2,7 +2,7 @@ import React from 'react';
 import buffer from './buffer.jsx';
 import './styl/city.styl';
 
-const colorList = ['emerald', 'green', 'blue', 'purple', 'dark', 'yellow', 'orange', 'red', 'white', 'grey'];
+const colorList = ['emerald', 'green', 'blue', 'purple', 'dark', 'yellow', 'orange', 'red',  'grey'];
 
 export default React.createClass({
 	getDefaultProps() {
@@ -15,33 +15,8 @@ export default React.createClass({
 	},
 	getInitialState() {
 		return {
-			temp: 0,
-			min: 0,
-			max: 0,
-			color: this.getRandomColor(),
-			name: '',
-			loaded: false
+			color: this.getRandomColor()
 		}
-	},
-
-	request() {
-		buffer.getById(this.props.id,
-			result => {
-				this.setState({
-					temp: result.main.temp,
-					min: result.main.temp_min,
-					max: result.main.temp_max,
-					name: result.name,
-					loaded: true
-				});
-			});
-	},
-	componentDidMount() {
-		this.request();
-		this._interval = setInterval(this.request, 1000);
-	},
-	componentWillUnmount() {
-		clearInterval(this._interval);
 	},
 	onRemove() {
 		this.props.onRemove(this.props.id)
@@ -53,17 +28,13 @@ export default React.createClass({
 
 		return colorList[getRandomInt(0, colorList.length - 1)]
 	},
-	renderTemp(label, temp, modifier) {
+	renderTemp(temp, modifier) {
 		let classname = !!modifier ? `temp temp-${modifier.toLowerCase()}` : 'temp';
 		return !!temp && (
-
 				<div className={classname}>
-					{
-						!!label && <span className="temp--label">{label}</span>
-					}
-				<span className="temp--value">
-					{Math.round(temp)}°C
-				</span>
+					<span className="temp--value">
+						{Math.round(temp)}° C
+					</span>
 				</div>
 			);
 	},
@@ -75,38 +46,28 @@ export default React.createClass({
 			</div>
 		);
 	},
-	renderInfo(){
+	render() {
 		let classnames = `city city-${this.state.color}`;
+		let isDataLoaded = this.props.name && !!this.props.temp;
 		return (
 			<div className={classnames}>
-
 				{this.renderLocalIcon()}
 				<div className="closeButton">
 					<span onClick={this.onRemove} className="fui-cross"/>
 				</div>
 				<div className="city--name">
-					<span>{this.state.name}</span>
+					<span>{this.props.name}</span>
 				</div>
-				<div className="city--info">
-					{this.renderTemp(null, this.state.temp, 'current')}
-					{this.renderTemp('Max', this.state.max)}
-					{this.renderTemp('Min', this.state.min)}
-				</div>
+				{isDataLoaded ?
+					<div className="city--info">
+						{this.renderTemp(this.props.temp, 'current')}
+					</div>
+					:
+					<div className="city--loader">Loading...</div>
+				}
+
 			</div>
+
 		);
-	},
-	renderLoader(){
-		return (
-			<div className="city">
-				<div className="loader">
-					loading...
-				</div>
-			</div>
-		);
-	},
-	render() {
-		return (
-			this.state.loaded ? this.renderInfo() : this.renderLoader()
-		)
 	}
 });
