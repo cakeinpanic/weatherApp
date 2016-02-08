@@ -12,7 +12,10 @@ export default {
 	getForecast: function (id, callback) {
 		$.get(`${url}forecast?id=${id}&${postfix}`,
 			callback);
-
+	},
+	tryCityName: function(cityName, callback) {
+		$.get(`${url}weather?q=${cityName}&${postfix}`,
+			callback);
 	},
 	getByCoords: function (lat, lon, callback) {
 		$.get(`${url}weather?lat=${lat}&lon=${lon}&${postfix}`,

@@ -25,16 +25,19 @@
     "react-hot-loader": "^1.3.0",
     "style-loader": "^0.13.0",
     "stylus-loader": "^1.5.1",
+    "svg-inline-react": "^0.3.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "dom-scroll-into-view": "^1.0.1",
     "flat-ui": "^2.1.1",
     "jquery": "^2.2.0",
     "react": "^0.14.0",
-    "react-autocomplete": "^0.1.4",
-    "react-autosuggest": "^3.4.0",
-    "react-dom": "^0.14.0"
+    "react-addons-css-transition-group": "^0.14.7",
+    "react-autocomplete": "cakeinpanic/react-autocomplete.git#improvement",
+    "react-dom": "^0.14.0",
+    "react-notifications": "^0.2.0"
   }
 }
