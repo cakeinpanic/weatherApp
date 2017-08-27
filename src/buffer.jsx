@@ -1,5 +1,5 @@
 let token = '929344a935f2f5bead18fa4bb33696e0';
-let url = `http://api.openweathermap.org/data/2.5/`;
+let url = `https://api.openweathermap.org/data/2.5/`;
 let postfix = `appid=${token}&units=metric`;
 
 import $ from 'jquery';

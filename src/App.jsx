@@ -37,7 +37,9 @@ export default React.createClass({
 
 		if (localCityPosition !== -1) {
 			cityList.splice(localCityPosition, 1);
-			cityList.unshift(localCityId);
+			if (localCityId !== 0) {
+			    cityList.unshift(localCityId);
+            }
 		}
 
 		this.setState({
@@ -131,8 +133,10 @@ export default React.createClass({
 	},
 	getWeather(cityList) {
 		cityList = cityList || this.state.cityList;
+
 		buffer.getFewCitiesData(cityList, result => {
 			let cityList = {};
+			result.list = result.list || [];
 			result.list.forEach(data => {
 					cityList[data.id] = {
 						name: data.name,
